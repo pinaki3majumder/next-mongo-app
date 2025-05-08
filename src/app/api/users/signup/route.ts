@@ -2,6 +2,7 @@ import { dbConnect } from "@/dbConfig/dbConfig";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
+import { errorResponse } from "@/lib/errors/errorResponse";
 
 dbConnect();
 
@@ -14,7 +15,7 @@ export async function POST(request: NextRequest) {
         // Check if user already exists
         const user = await User.findOne({ email });
         if (user) {
-            return NextResponse.json({ error: "User already exists" }, { status: 400 });
+            return errorResponse("User already exists", 400);
         }
 
         // Hash password
@@ -35,10 +36,6 @@ export async function POST(request: NextRequest) {
             { status: 201 }
         );
     } catch (error: unknown) {
-        if (error instanceof Error) {
-            return NextResponse.json({ error: error.message }, { status: 500 });
-        }
-
-        return NextResponse.json({ error: "An unexpected error occurred!" }, { status: 500 });
+        return errorResponse(error);
     }
 }

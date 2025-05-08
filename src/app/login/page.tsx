@@ -1,8 +1,11 @@
 "use client";
 
+import { handleClientError } from "@/lib/errors/handleClientError";
 import axios from "axios";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -27,10 +30,11 @@ const LoginPage = () => {
     try {
       // Simulate login API call
       await axios.post("/api/users/login", trimmedUserData);
+      toast.success("🎉 Login successful!");
       setMessage("🎉 Login successful!");
       router.push("/profile");
     } catch (error) {
-      console.log("login error", error);
+      handleClientError(error);
       setMessage("❌ Login failed!");
     } finally {
       setLoading(false);
@@ -79,7 +83,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 ${
+            className={`w-full !mb-0 text-white py-2 px-4 rounded-lg font-semibold transition-all duration-300 ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-indigo-600 hover:bg-indigo-700"
@@ -87,6 +91,24 @@ const LoginPage = () => {
           >
             {loading ? "Logging in..." : "Login"}
           </button>
+
+          {/* Divider with OR */}
+          <div className="flex items-center my-6">
+            <div className="flex-grow h-px bg-gray-300"></div>
+            <span className="mx-4 text-gray-500 font-medium">OR</span>
+            <div className="flex-grow h-px bg-gray-300"></div>
+          </div>
+
+          {/* Go to Login Link */}
+          <div className="text-center text-sm text-gray-700">
+            Already have an account?{" "}
+            <Link
+              href="/signup"
+              className="text-indigo-600 font-semibold hover:underline"
+            >
+              SignUp
+            </Link>
+          </div>
         </form>
 
         {message && (
