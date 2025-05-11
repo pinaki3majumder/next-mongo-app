@@ -1,7 +1,9 @@
 import { ApiError } from "next/dist/server/api-utils";
 import { NextResponse } from "next/server";
 
-export function errorResponse(error: unknown, statusCode?: number) {
+export function errorResponse(error: unknown, statusCode?: number, errorSource?: string) {
+    console.log('err service-', error);
+
     if (error instanceof ApiError && "statusCode" in error && typeof error.statusCode === "number") {
         return NextResponse.json({ error: error.message }, { status: error.statusCode });
     }
@@ -10,5 +12,5 @@ export function errorResponse(error: unknown, statusCode?: number) {
         return NextResponse.json({ error }, { status: statusCode });
     }
 
-    return NextResponse.json({ error: "An unexpected error occurred!" }, { status: 500 });
+    return NextResponse.json({ error: `An unexpected error occurred ${errorSource ? `(from ${errorSource})` : ""}!` }, { status: 500 });
 }
