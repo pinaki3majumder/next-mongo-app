@@ -1,6 +1,7 @@
 "use client";
 
 import { handleClientError } from "@/lib/errors/handleClientError";
+import { SignupData } from "@/types/signup.type";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,13 +10,13 @@ import toast from "react-hot-toast";
 
 const SignUpPage = () => {
   const router = useRouter();
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<SignupData>({
     userName: "",
     email: "",
     pwd: "",
   });
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -26,7 +27,7 @@ const SignUpPage = () => {
     setLoading(true);
     setMessage("");
 
-    const trimmedUserData = {
+    const trimmedUserData: SignupData = {
       userName: formData.userName.trim(),
       email: formData.email.trim(),
       pwd: formData.pwd.trim(),
@@ -34,7 +35,10 @@ const SignUpPage = () => {
 
     try {
       // Simulate API call
-      await axios.post("/api/users/signup", trimmedUserData);
+      await axios.post<string, SignupData>(
+        "/api/users/signup",
+        trimmedUserData
+      );
       toast.success("🎉 Signup successful!");
       setMessage("🎉 Signup successful!");
       router.push("/login");

@@ -1,6 +1,7 @@
 "use client";
 
 import { handleClientError } from "@/lib/errors/handleClientError";
+import { LoginData } from "@/types/login.type";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,9 +10,9 @@ import toast from "react-hot-toast";
 
 const LoginPage = () => {
   const router = useRouter();
-  const [formData, setFormData] = useState({ email: "", pwd: "" });
-  const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [formData, setFormData] = useState<LoginData>({ email: "", pwd: "" });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -22,7 +23,7 @@ const LoginPage = () => {
     setLoading(true);
     setMessage("");
 
-    const trimmedUserData = {
+    const trimmedUserData: LoginData = {
       email: formData.email.trim(),
       pwd: formData.pwd.trim(),
     };
