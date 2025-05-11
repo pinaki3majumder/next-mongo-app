@@ -3,8 +3,8 @@ import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { errorResponse } from "@/lib/errors/errorResponse";
-import { sendEmail } from "@/helpers/mailer";
 import { EmailType } from "@/types/email-type.enum";
+import { sendEmailHandler } from "@/app/lib/sendEmailHandler";
 
 dbConnect();
 
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
         console.log('savedUser-', savedUser);
 
         //send verification email
-        await sendEmail({
+        await sendEmailHandler({
             email,
             emailType: EmailType.VERIFY_USER,
             userId: savedUser._id,

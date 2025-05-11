@@ -1,55 +1,47 @@
+import { generateEmailTemplate } from "@/helpers/email-template";
 import User from "@/models/userModel";
 import { EmailType } from "@/types/email-type.enum";
 import { SendEmailData } from "@/types/send-email.type";
 import bcryptjs from "bcryptjs";
 import nodemailer from "nodemailer";
-import { generateEmailTemplate } from "./email-template";
 
-export const sendEmail = async (data: SendEmailData) => {
+export const sendEmailHandler = async (data: SendEmailData) => {
     try {
         const hashedUserId = await bcryptjs.hash(data.userId.toString(), 10);
 
         if (data.emailType === EmailType.VERIFY_USER) {
-            await User.findByIdAndUpdate(
-                data.userId,
-                {
-                    verifyToken: hashedUserId,
-                    verifyTokenExpiry: Date.now() + 3600000
-                }
-            );
+            await User.findByIdAndUpdate(data.userId, {
+                verifyToken: hashedUserId,
+                verifyTokenExpiry: Date.now() + 3600000,
+            });
         }
 
         if (data.emailType === EmailType.FORGOT_PASSWORD) {
-            await User.findByIdAndUpdate(
-                data.userId,
-                {
-                    forgotPasswordToken: hashedUserId,
-                    forgotPasswordTokenExpiry: Date.now() + 3600000
-                }
-            );
+            await User.findByIdAndUpdate(data.userId, {
+                forgotPasswordToken: hashedUserId,
+                forgotPasswordTokenExpiry: Date.now() + 3600000,
+            });
         }
 
-        // Looking to send emails in production? Check out our Email API/SMTP product!
         const transport = nodemailer.createTransport({
             host: process.env.NODEMAILER_HOST,
             port: process.env.NODEMAILER_PORT as unknown as number,
             auth: {
                 user: process.env.NODEMAILER_USER,
-                pass: process.env.NODEMAILER_PASS
-            }
+                pass: process.env.NODEMAILER_PASS,
+            },
         });
 
         const { subject, html } = generateEmailTemplate(data.emailType, hashedUserId);
 
         const mailOptions = {
-            from: "pinaki@gmail.com",
+            from: process.env.MAIL_FROM,
             to: data.email,
             subject,
-            html
+            html,
         };
 
         const mailResponse = await transport.sendMail(mailOptions);
-
         return mailResponse;
     } catch (error: any) {
         throw new Error(error.message);
