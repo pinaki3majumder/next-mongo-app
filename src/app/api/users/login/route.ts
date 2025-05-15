@@ -5,7 +5,7 @@ import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { errorResponse } from "@/lib/errors/errorResponse";
 
-dbConnect();
+await dbConnect();
 
 export async function POST(request: NextRequest) {
     try {

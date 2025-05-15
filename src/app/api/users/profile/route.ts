@@ -5,7 +5,7 @@ import { ApiResponse, ApiResponseWithData } from "@/types/api-response.types";
 import { UserInfo } from "@/types/user.type";
 import { NextRequest, NextResponse } from "next/server";
 
-dbConnect();
+await dbConnect();
 
 export async function GET(request: NextRequest): Promise<NextResponse<ApiResponse<ApiResponseWithData<UserInfo> | null>>> {
     try {

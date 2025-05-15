@@ -6,8 +6,7 @@ import { sendEmailHandler } from "@/lib/sendEmailHandler";
 import { EmailType } from "@/types/email-type.enum";
 import bcryptjs from "bcryptjs";
 
-
-dbConnect();
+await dbConnect();
 
 export async function POST(request: NextRequest) {
     try {

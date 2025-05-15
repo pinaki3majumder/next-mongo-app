@@ -6,7 +6,7 @@ import { errorResponse } from "@/lib/errors/errorResponse";
 import { EmailType } from "@/types/email-type.enum";
 import { sendEmailHandler } from "@/lib/sendEmailHandler";
 
-dbConnect();
+await dbConnect();
 
 export async function POST(request: NextRequest) {
     try {
