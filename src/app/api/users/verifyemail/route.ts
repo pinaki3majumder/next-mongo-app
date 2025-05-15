@@ -7,11 +7,7 @@ await dbConnect();
 export const POST = async (request: NextRequest) => {
     try {
         const reqBody = await request.json();
-        console.log('verify email | reqBody-', reqBody);
-
         const { token } = reqBody;
-
-        console.info('verify email | token-', token);
 
         const user = await User.findOne({
             verifyToken: token,
@@ -21,8 +17,6 @@ export const POST = async (request: NextRequest) => {
         if (!user) {
             return NextResponse.json({ error: "Invalid token" }, { status: 400 });
         }
-
-        console.info('verify email | user-', user);
 
         user.isVerified = true;
         user.verifyToken = undefined;
@@ -36,4 +30,4 @@ export const POST = async (request: NextRequest) => {
     } catch (error: any) {
         return NextResponse.json({ error: error.message }, { status: 500 });
     }
-}
+};

@@ -1,5 +1,5 @@
-import { sendEmailHandler } from '@/lib/sendEmailHandler';
-import { NextRequest, NextResponse } from 'next/server';
+import { sendEmailHandler } from "@/lib/sendEmailHandler";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
     const body = await req.json();
@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
         await sendEmailHandler(body); // the actual sending logic (e.g. nodemailer)
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Send email failed:', error);
-        return NextResponse.json({ success: false, error: 'Failed to send email' }, { status: 500 });
+        console.error("Send email failed:", error);
+        return NextResponse.json({ success: false, error: "Failed to send email" }, { status: 500 });
     }
 }

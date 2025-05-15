@@ -13,7 +13,6 @@ export async function POST(request: NextRequest) {
         const reqBody = await request.json();
 
         if ("email" in reqBody) {
-            console.log('reqBody-', reqBody);
             const { email } = reqBody;
 
             // Check if user already exists
@@ -41,8 +40,6 @@ export async function POST(request: NextRequest) {
 
         const { confirmPassword, token } = reqBody;
 
-        console.info('verify email | token-', token);
-
         const user = await User.findOne({
             forgotPasswordToken: token,
             forgotPasswordTokenExpiry: { $gt: Date.now() }
@@ -51,8 +48,6 @@ export async function POST(request: NextRequest) {
         if (!user) {
             return NextResponse.json({ error: "Invalid token" }, { status: 400 });
         }
-
-        console.info('reset pwd | user-', user);
 
         // Hash password
         const salt = await bcryptjs.genSalt(10);

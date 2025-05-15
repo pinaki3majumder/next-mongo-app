@@ -41,7 +41,7 @@ export const sendEmail = async (data: SendEmailData) => {
         const { subject, html } = generateEmailTemplate(data.emailType, hashedUserId);
 
         const mailOptions = {
-            from: "pinaki@gmail.com",
+            from: "user@gmail.com",
             to: data.email,
             subject,
             html
