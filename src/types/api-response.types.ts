@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // Define ApiResponse Type
 export type ApiResponse<T> = {
     message: string;

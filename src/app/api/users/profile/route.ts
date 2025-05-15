@@ -21,6 +21,7 @@ export async function GET(request: NextRequest): Promise<NextResponse<ApiRespons
 
         return NextResponse.json(responseData, { status: 200 });
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error: unknown) {
         const errorResponse: ApiResponse<null> = {
             message: "An error occurred",

@@ -1,15 +1,17 @@
 import React from "react";
 
 type ProfileProp = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
-const ProfileSubPAGE = ({ params }: ProfileProp) => {
+const ProfileSubPAGE = async ({ params }: ProfileProp) => {
+  const resolvedParams = await params;
+
   return (
     <div>
       ProfileSubPAGE{" "}
       <span className="bg-orange-500 text-white font-bold px-3 py-2 rounded">
-        {params.id}
+        {resolvedParams.id}
       </span>
     </div>
   );

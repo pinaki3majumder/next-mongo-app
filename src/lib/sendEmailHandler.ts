@@ -43,6 +43,7 @@ export const sendEmailHandler = async (data: SendEmailData) => {
 
         const mailResponse = await transport.sendMail(mailOptions);
         return mailResponse;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
         throw new Error(error.message);
     }
