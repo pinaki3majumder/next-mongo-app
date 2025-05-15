@@ -68,15 +68,15 @@ const ForgotPassword = () => {
     console.log("Password submitted:", data);
     // Trigger password reset API here
 
-    const res = await axios.post("/api/users/forgot-password", {
-      confirmPassword: data.confirmPassword.trim(),
-      token,
-    });
-    const resData = await res;
-    console.log("pwd res data-", resData);
-    toast.success("🎉 SUCCESS");
-    router.push("/login");
     try {
+      const res = await axios.post("/api/users/forgot-password", {
+        confirmPassword: data.confirmPassword.trim(),
+        token,
+      });
+      const resData = await res;
+      console.log("pwd res data-", resData);
+      toast.success("🎉 SUCCESS");
+      router.push("/login");
     } catch (error) {
       handleClientError(error);
     }

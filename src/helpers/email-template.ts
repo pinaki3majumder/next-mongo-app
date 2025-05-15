@@ -26,7 +26,7 @@ export function generateEmailTemplate(emailType: EmailType, token: string): Emai
 
     const config = emailConfig[emailType];
     const url = `${process.env.DOMAIN}/${config.path}?token=${token}`;
-    const html = `<p>Click <a href="${url}">here</a> to ${config.actionText}</p><br>OR Copy and paste this link in your browser: ${url}`;
+    const html = `<p>Click <a target="_blank" href="${url}">here</a> to ${config.actionText}</p><br>OR Copy and paste this link in your browser: <i>${url}</i>`;
 
     return {
         subject: config.subject,
