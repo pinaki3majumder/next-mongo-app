@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently \"next dev -p 3000\" \"sleep 2 && start http://localhost:3000\"",
+    "dev": "next dev",
+    "dev-open": "concurrently \"next dev -p 3000\" \"sleep 2 && start http://localhost:3000\"",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -18,6 +19,7 @@
     "nodemailer": "^6.10.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.3",
     "react-hot-toast": "^2.5.2"
   },
   "devDependencies": {

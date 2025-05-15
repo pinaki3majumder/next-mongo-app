@@ -1,4 +1,4 @@
-import { sendEmailHandler } from '@/app/lib/sendEmailHandler';
+import { sendEmailHandler } from '@/lib/sendEmailHandler';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function POST(req: NextRequest) {

@@ -1,0 +1,75 @@
+import { dbConnect } from "@/dbConfig/dbConfig";
+import User from "@/models/userModel";
+import { NextRequest, NextResponse } from "next/server";
+import { errorResponse } from "@/lib/errors/errorResponse";
+import { sendEmailHandler } from "@/lib/sendEmailHandler";
+import { EmailType } from "@/types/email-type.enum";
+import bcryptjs from "bcryptjs";
+
+
+dbConnect();
+
+export async function POST(request: NextRequest) {
+    try {
+        const reqBody = await request.json();
+
+        if ("email" in reqBody) {
+            console.log('reqBody-', reqBody);
+            const { email } = reqBody;
+
+            // Check if user already exists
+            const user = await User.findOne({ email });
+            if (!user) {
+                return errorResponse("User not exists", 400);
+            }
+
+            //send forgot password email
+            await sendEmailHandler({
+                email,
+                emailType: EmailType.FORGOT_PASSWORD,
+                userId: user._id,
+            });
+
+            return NextResponse.json(
+                {
+                    message: "Mail send to the user",
+                    success: true,
+                    status: 201,
+                    user
+                }
+            );
+        }
+
+        const { confirmPassword, token } = reqBody;
+
+        console.info('verify email | token-', token);
+
+        const user = await User.findOne({
+            forgotPasswordToken: token,
+            forgotPasswordTokenExpiry: { $gt: Date.now() }
+        });
+
+        if (!user) {
+            return NextResponse.json({ error: "Invalid token" }, { status: 400 });
+        }
+
+        console.info('reset pwd | user-', user);
+
+        // Hash password
+        const salt = await bcryptjs.genSalt(10);
+        const hashedPassword = await bcryptjs.hash(confirmPassword, salt);
+
+        user.pwd = hashedPassword;
+        user.forgotPasswordToken = undefined;
+        user.forgotPasswordTokenExpiry = undefined;
+        await user.save();
+
+        return NextResponse.json({
+            message: "Password reset successfully",
+            status: 200
+        });
+
+    } catch (error: unknown) {
+        return errorResponse(error);
+    }
+}

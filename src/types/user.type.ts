@@ -6,4 +6,8 @@ export type UserInfo = {
     isVerified: boolean;
     isAdmin: boolean;
     __v: number;
+    verifyToken?: string;
+    verifyTokenExpiry?: Date;
+    forgotPasswordToken?: string;
+    forgotPasswordTokenExpiry?: Date;
 }

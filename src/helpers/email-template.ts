@@ -14,12 +14,12 @@ export function generateEmailTemplate(emailType: EmailType, token: string): Emai
         },
         [EmailType.FORGOT_PASSWORD]: {
             subject: 'Forgot Password',
-            path: 'forgotpassword',
+            path: 'forgot-password',
             actionText: 'reset your password'
         },
         [EmailType.RESET_PASSWORD]: {
             subject: 'Reset your password',
-            path: 'resetpassword',
+            path: 'reset-password',
             actionText: 'reset your password'
         }
     };

@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcryptjs from "bcryptjs";
 import { errorResponse } from "@/lib/errors/errorResponse";
 import { EmailType } from "@/types/email-type.enum";
-import { sendEmailHandler } from "@/app/lib/sendEmailHandler";
+import { sendEmailHandler } from "@/lib/sendEmailHandler";
 
 dbConnect();
 

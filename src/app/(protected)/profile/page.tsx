@@ -9,7 +9,7 @@ import React, { useEffect } from "react";
 
 const Profile = () => {
   const [user, setUser] = React.useState<UserInfo | null>(null);
-  const [activateEmail, setActivateEmail] = React.useState<boolean>(false);
+  const [disableVerify, setDisableVerify] = React.useState<boolean>(false);
 
   useEffect(() => {
     getUserDetails();
@@ -22,13 +22,14 @@ const Profile = () => {
     setUser(response.data.data);
     console.log(response.data.data);
 
-    if (!response.data.data.isVerified) {
-      setActivateEmail(true);
+    if (response.data.data.verifyToken) {
+      setDisableVerify(true);
     }
   };
 
   const verifyUserEmail = async () => {
     console.log("verifyUserEmail");
+    setDisableVerify(true);
 
     sendEmail({
       email: user?.email || "",
@@ -65,19 +66,23 @@ const Profile = () => {
           </div>
         ) : (
           <div
-            className="p-4 !mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400"
+            className="!p-2 !mt-2 mb-4 text-sm text-red-800 rounded-lg bg-red-100 dark:bg-gray-800 dark:text-red-400 flex justify-between items-center"
             role="alert"
           >
             <span className="font-bold">Not Verified!</span>
-            <br />
-            {activateEmail && (
-              <button
-                className="mt-2 p-4 rounded-2xl font-bold bg-amber-400"
-                onClick={verifyUserEmail}
-              >
-                Verify
-              </button>
-            )}
+            <button
+              disabled={disableVerify}
+              className={`p-2 rounded font-bold
+                ${
+                  disableVerify
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-red-400 text-amber-50 hover:bg-red-500 cursor-pointer"
+                }
+            `}
+              onClick={verifyUserEmail}
+            >
+              VERIFY
+            </button>
           </div>
         )}
 
