@@ -23,8 +23,6 @@ const ForgotPassword = () => {
   const [token, setToken] = useState<string>("");
 
   useEffect(() => {
-    console.log("useEffect 1");
-
     const urlToken = window.location.search.split("=")[1];
     setToken(urlToken || "");
   }, []);
@@ -46,7 +44,7 @@ const ForgotPassword = () => {
       setSubmitted(false);
 
       const resData = await res;
-      console.log("data-", resData);
+      console.info(resData.data.message);
       toast.success(`🎉 ${resData.data.message}`);
       router.push("/login");
     } catch (error) {
@@ -64,7 +62,6 @@ const ForgotPassword = () => {
   } = useForm<PasswordFormData>({ mode: "onTouched" });
 
   const onSubmitPassword = async (data: PasswordFormData) => {
-    console.log("Password submitted:", data);
     // Trigger password reset API here
 
     try {
@@ -73,7 +70,6 @@ const ForgotPassword = () => {
         token,
       });
       const resData = await res;
-      console.log("pwd res data-", resData);
       toast.success(`🎉 ${resData.data.message}`);
       router.push("/login");
     } catch (error) {

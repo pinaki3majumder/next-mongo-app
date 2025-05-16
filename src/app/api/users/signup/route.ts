@@ -35,15 +35,13 @@ export async function POST(request: NextRequest) {
         let successMsg = "";
 
         try {
-            const emailResponse = await sendEmailHandler({
+            await sendEmailHandler({
                 email,
                 emailType: EmailType.VERIFY_USER,
                 userId: savedUser._id,
             });
 
             successMsg = "User created successfully & Mail send to the user";
-
-            console.log("Email sent successfully:", emailResponse);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             console.error("Failed to send email:", error.message);

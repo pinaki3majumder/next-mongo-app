@@ -41,7 +41,7 @@ const SignUpPage = () => {
       );
 
       const resData = await res;
-      console.log(resData.data.message);
+      console.info(resData.data.message);
       toast.success(`🎉 ${resData.data.message}`);
       setMessage(`🎉 ${resData.data.message}`);
       router.push("/login");

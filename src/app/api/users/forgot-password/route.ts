@@ -23,13 +23,11 @@ export async function POST(request: NextRequest) {
 
             //send forgot password email
             try {
-                const emailResponse = await sendEmailHandler({
+                await sendEmailHandler({
                     email,
                     emailType: EmailType.FORGOT_PASSWORD,
                     userId: user._id,
                 });
-
-                console.log("Email sent successfully:", emailResponse);
 
                 return NextResponse.json(
                     {

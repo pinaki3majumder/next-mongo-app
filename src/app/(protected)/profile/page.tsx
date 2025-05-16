@@ -20,7 +20,6 @@ const Profile = () => {
       "/api/users/profile"
     );
     setUser(response.data.data);
-    console.log(response.data.data);
 
     if (response.data.data.verifyToken) {
       setDisableVerify(true);
@@ -28,7 +27,6 @@ const Profile = () => {
   };
 
   const verifyUserEmail = async () => {
-    console.log("verifyUserEmail");
     setDisableVerify(true);
 
     sendEmail({
