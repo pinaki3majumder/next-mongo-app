@@ -12,7 +12,7 @@ const VerifyUser = () => {
     try {
       await axios.post("/api/users/verifyemail", { token });
       setVerified(true);
-    } catch (error) {
+    } catch {
       setError("Invalid token!");
       setVerified(false);
     }
