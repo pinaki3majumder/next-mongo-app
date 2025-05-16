@@ -43,12 +43,11 @@ const ForgotPassword = () => {
       const res = await axios.post("/api/users/forgot-password", {
         email: data.email.trim(),
       });
-      toast.success("🎉 Email sent");
       setSubmitted(false);
 
       const resData = await res;
       console.log("data-", resData);
-
+      toast.success(`🎉 ${resData.data.message}`);
       router.push("/login");
     } catch (error) {
       handleClientError(error);
@@ -75,7 +74,7 @@ const ForgotPassword = () => {
       });
       const resData = await res;
       console.log("pwd res data-", resData);
-      toast.success("🎉 SUCCESS");
+      toast.success(`🎉 ${resData.data.message}`);
       router.push("/login");
     } catch (error) {
       handleClientError(error);

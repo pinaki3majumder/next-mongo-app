@@ -22,20 +22,29 @@ export async function POST(request: NextRequest) {
             }
 
             //send forgot password email
-            await sendEmailHandler({
-                email,
-                emailType: EmailType.FORGOT_PASSWORD,
-                userId: user._id,
-            });
+            try {
+                const emailResponse = await sendEmailHandler({
+                    email,
+                    emailType: EmailType.FORGOT_PASSWORD,
+                    userId: user._id,
+                });
 
-            return NextResponse.json(
-                {
-                    message: "Mail send to the user",
-                    success: true,
-                    status: 201,
-                    user
-                }
-            );
+                console.log("Email sent successfully:", emailResponse);
+
+                return NextResponse.json(
+                    {
+                        message: "Mail send to the user",
+                        success: true,
+                        status: 201,
+                        user
+                    }
+                );
+
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            } catch (error: any) {
+                console.error("Failed to send email:", error.message);
+                return NextResponse.json({ error: "Failed to send email, try again later!" }, { status: 400 });
+            }
         }
 
         const { confirmPassword, token } = reqBody;

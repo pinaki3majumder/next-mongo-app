@@ -35,12 +35,15 @@ const SignUpPage = () => {
 
     try {
       // Simulate API call
-      await axios.post<string, SignupData>(
+      const res = await axios.post(
         "/api/users/signup",
         trimmedUserData
       );
-      toast.success("🎉 Signup successful!");
-      setMessage("🎉 Signup successful!");
+
+      const resData = await res;
+      console.log(resData.data.message);
+      toast.success(`🎉 ${resData.data.message}`);
+      setMessage(`🎉 ${resData.data.message}`);
       router.push("/login");
     } catch (error) {
       handleClientError(error);
@@ -101,7 +104,7 @@ const SignUpPage = () => {
               name="pwd"
               id="pwd"
               onChange={handleChange}
-              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-400"
+              className="mt-1 w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
             />
           </div>
 
